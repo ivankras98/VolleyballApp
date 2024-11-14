@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Информация о волейболисте</title>
+</head>
+<body>
+    <h1>{{ player.name }}</h1>
+    <p><strong>Возраст:</strong> {{ player.age }}</p>
+    <p><strong>Позиция:</strong> {{ player.position }}</p>
+    <p><strong>Рост:</strong> {{ player.height }} см</p>
+    <p><strong>Вес:</strong> {{ player.weight }} кг</p>
+
+    {% if player.biography %}
+        <h2>Биография</h2>
+        <p>{{ player.biography }}</p>
+    {% endif %}
+
+    {% if player.image %}
+        <img src="{{ player.image.url }}" alt="{{ player.name }}">
+    {% endif %}
+
+    <a href="{% url 'player_list' %}">Назад к списку</a>
+</body>
+</html>

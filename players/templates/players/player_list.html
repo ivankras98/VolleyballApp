@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Список волейболистов</title>
+</head>
+<body>
+    <h1>Список волейболистов</h1>
+
+    <!-- Кнопка для добавления нового игрока -->
+    <a href="{% url 'add_player' %}"><button>Добавить игрока</button></a>
+
+    <!-- Форма для сортировки, фильтрации и поиска -->
+  <form method="get">
+    <label for="position">Фильтр по позиции:</label>
+    <select name="position">
+        <option value="">Все</option>
+        {% for pos in unique_positions %}
+            <option value="{{ pos }}" {% if pos == position %}selected{% endif %}>{{ pos }}</option>
+        {% endfor %}
+    </select>
+    <!-- Скрытые поля для сохранения поиска и сортировки -->
+    <input type="hidden" name="search" value="{{ search_query }}">
+    <input type="hidden" name="sort" value="{{ sort_by }}">
+    <button type="submit">Применить</button>
+</form>
+
+<!-- Поля для поиска и сортировки -->
+<div>
+    <form method="get" style="display: inline;">
+        <input type="text" name="search" placeholder="Поиск по имени" value="{{ search_query }}">
+        <input type="hidden" name="position" value="{{ position }}">
+        <input type="hidden" name="sort" value="{{ sort_by }}">
+        <button type="submit">Поиск</button>
+    </form>
+</div>
+
+<div>
+    <a href="?sort=name&search={{ search_query }}&position={{ position }}">Сортировать по имени</a>
+    <a href="?sort=position&search={{ search_query }}&position={{ position }}">Сортировать по позиции</a>
+</div>
+
+
+    <table>
+        <tr>
+            <th>Имя</th>
+            <th>Возраст</th>
+            <th>Позиция</th>
+            <th>Рост</th>
+            <th>Вес</th>
+            <th>Действия</th>
+        </tr>
+        {% for player in players %}
+        <tr>
+            <td>{{ player.name }}</td>
+            <td>{{ player.age }}</td>
+            <td>{{ player.position }}</td>
+            <td>{{ player.height }}</td>
+            <td>{{ player.weight }}</td>
+            <td>
+                <a href="{% url 'player_detail' player.pk %}">Подробнее</a>
+                <!-- Кнопка удаления игрока -->
+                <form method="post" action="{% url 'delete_player' player.pk %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">Удалить</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

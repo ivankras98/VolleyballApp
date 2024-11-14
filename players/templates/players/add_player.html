@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Добавить игрока</title>
+</head>
+<body>
+    <h1>Добавить нового игрока</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить</button>
+    </form>
+    <a href="{% url 'player_list' %}">Назад к списку игроков</a>
+</body>
+</html>
